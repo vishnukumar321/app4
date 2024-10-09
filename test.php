@@ -7,16 +7,24 @@
 // echo $n->data['time']."<br>";
 // $t=strtotime($n->data['time']);
 // echo $t."<br>".time();
-$r=3;
-try{
-    if($r==1){
-        echo "njan";
-    }else{
-        throw new Exception('r is not 1');
-    }
-
-}
-catch(Exception){
-    echo "matannal";
-
-}
+?>
+<form action="">
+    <table>
+        <tr>
+            <td><input type="text"><label for=""></label></td>
+            <td><input type="text"><label for=""></label></td>
+        </tr>
+        <tr>
+            <td><input type="text"><label for=""></label></td>
+            <td><input type="text"><label for=""></label></td>
+        </tr>
+        <tr>
+            <td><input type="text"><label for=""></label></td>
+            <td><input type="text"><label for=""></label></td>
+        </tr>
+        <tr>
+            <td><input type="text"><label for=""></label></td>
+            <td><input type="text"><label for=""></label></td>
+        </tr>
+    </table>
+</form>
