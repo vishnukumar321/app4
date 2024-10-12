@@ -6,7 +6,6 @@ class user{
     public $username;
     public function __construct($username)
     {
-        echo $username."<br>";
         if(!$this->conn){
             $this->conn=database::get_conn();
         }

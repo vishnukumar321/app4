@@ -1,7 +1,9 @@
 <?php
 include_once "lib/load.php";
 get_file('__head');
-
+$sesion=new session($_SESSION['token']);
+$name=$sesion->getusername();
+$username=new user($name);
 if(isset($_SESSION['username'])){
     $username=new user($_SESSION['username']);
 }
@@ -39,7 +41,8 @@ get_file('__header');
                 if(isset($_GET['i'])){
                     ?>
                     <tr>
-                        <td style="color: red;"><?php echo "please try again..."?></td>
+                        <td style="color: red;"><?php echo "please try again..."?>
+                    </td>
                     </tr>
                     <?php
                 }

@@ -10,6 +10,14 @@
             padding: 0px;
             margin: 0px;
         }
+        /* body{
+            background-image: url('back.jpg') !important;
+            background-attachment: fixed;
+        } */
+        /* .main3{
+            background-color: transparent !important;
+            backdrop-filter: blur(20px);
+        } */
         .header{
             padding: 15px;
             height: auto;
@@ -50,7 +58,7 @@
         }
         
     </style>
-    <div class="header">
+    <div class="header main3">
         <div class="comm">
             <div>
             <a style="text-decoration: none;color: white; display: flex;" href="index.php"><img style="width: 185px;height:54px" src="album3.png"></a>
