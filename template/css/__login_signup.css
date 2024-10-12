@@ -1,0 +1,42 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.body{
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+input::placeholder{
+    color: black;
+    padding: 10px;
+}
+input{
+    padding: 10px;
+    color: black;
+    background-color: azure;
+    height: 40px;
+    width: 255px;
+    border-radius: 28px;
+    margin-bottom: 8px;
+}
+.sign{
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 20px;
+}
+.submit{
+    transition: 0.5s;
+    margin-top: 10px;
+    width: 80px;
+    padding: 5px;
+    border: 1px solid #0858d1;
+    border-radius: 20px;
+    background-color: #0858d1;
+    color: white;
+}
+.submit:hover{
+    background-color: #000b1c;
+}
