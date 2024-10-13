@@ -4,9 +4,10 @@ $result=false;
 $login=false;
 $error=false;
 if (isset($_POST['email']) and isset($_POST['pass'])) {
+    $finger=$_POST['finger'];
     $email = $_POST['email'];
     $pass = $_POST['pass'];
-    $username = session::authentication($email, $pass);
+    $username = session::authentication($email, $pass,$finger);
     $profile=new user($username);
     $p=$profile->profile($username);
     if($p==true and $username==true){
@@ -36,6 +37,9 @@ if($result){
                         </td>
                     </tr>
                     <tr>
+                        <td><input type="hidden" name="finger" id="fin"></td>
+                    </tr>
+                    <tr>
                         <td><input type="text" name="email" placeholder="Email or username" required></td>
                     </tr>
                     <tr>
@@ -53,3 +57,21 @@ if($result){
             </form>
         </center>
     </div>
+    <script>
+  // Initialize the agent at application startup.
+  // If you're using an ad blocker or Brave/Firefox, this import will not work.
+  // Please use the NPM package instead: https://t.ly/ORyXk
+  const fpPromise = import('https://openfpcdn.io/fingerprintjs/v4')
+    .then(FingerprintJS => FingerprintJS.load())
+
+  // Get the visitor identifier when you need it.
+  fpPromise
+    .then(fp => fp.get())
+    .then(result => {
+      // This is the visitor identifier:
+      const visitorId = result.visitorId
+      const fin=document.getElementById('fin')
+      fin.value=visitorId
+      console.log(visitorId)
+    })
+</script>

@@ -18,18 +18,21 @@ class session{
         }
         
     }
-    public static function authentication($email,$pass){
+    public static function authentication($email,$pass,$finger){
         $conn=database::get_conn();
         $username=user::login($email,$pass);
         $user=new user($username);
         session::$id=$user->id;
         if($username){
+            date_default_timezone_set('asia/kolkata');
+            $time=date('Y-m-d H:i:s');
             $ip=$_SERVER['REMOTE_ADDR'];
             $agent=$_SERVER['HTTP_USER_AGENT'];
             $token=md5(rand(0,999999).$ip.$agent.time());
-            $sql="INSERT INTO `session` (`id`, `ip`, `agent`, `token`, `time`, `active`)
-VALUES ('$user->id', '$ip', '$agent', '$token', now(), '1');";
+            $sql="INSERT INTO `session` (`id`, `ip`, `agent`, `token`, `time`, `finger`, `active`)
+VALUES ('$user->id', '$ip', '$agent', '$token', '$time', '$finger', '1');";
             if($conn->query($sql)){
+                $_SESSION['finger']=$finger;
                 $_SESSION['token']=$token;
                 return $username;
             }else{
@@ -41,28 +44,33 @@ VALUES ('$user->id', '$ip', '$agent', '$token', now(), '1');";
         }
     }
     public static function authorize($token){
+        
         $session=new session($token);
         try{
-            if(isset($_SESSION['token'])){
-                if($_SESSION['token']==$session->gettoken()){
-                    if($session->isactive() and $session->isvalid()){
-                        if($_SERVER['REMOTE_ADDR']==$session->getip()){
-                            if($_SERVER['HTTP_USER_AGENT']==$session->getagent()){
-                                return true;
+            if($_SESSION['finger']==$session->getfinger()){
+                if(isset($_SESSION['token'])){
+                    if($_SESSION['token']==$session->gettoken()){
+                        if($session->isactive() and $session->isvalid()){
+                            if($_SERVER['REMOTE_ADDR']==$session->getip()){
+                                if($_SERVER['HTTP_USER_AGENT']==$session->getagent()){
+                                    return true;
+                                }else{
+                                    throw new Exception('session->authorize->user agent is diffrent');
+                                }
                             }else{
-                                throw new Exception('session->authorize->user agent is diffrent');
+                                throw new Exception('session->authorize->ip is diffrent');
                             }
                         }else{
-                            throw new Exception('session->authorize->ip is diffrent');
+                            throw new Exception('session->authorize->session is unvalid');
                         }
                     }else{
-                        throw new Exception('session->authorize->session is unvalid');
+                        throw new Exception('session->authorize->user token is diffrent');
                     }
                 }else{
-                    throw new Exception('session->authorize->user token is diffrent');
+                    throw new Exception('session->authorize->user token not seted');
                 }
             }else{
-                throw new Exception('session->authorize->user token not seted');
+                throw new Exception('session->authorize->user token is diffrent');
             }
         }
         catch(Exception $a){
@@ -85,6 +93,9 @@ WHERE `id` = '$id';";
     }
     public function getip(){
         return $this->data['ip'];
+    }
+    public function getfinger(){
+        return $this->data['finger'];
     }
     public function getagent(){
         return $this->data['agent'];
